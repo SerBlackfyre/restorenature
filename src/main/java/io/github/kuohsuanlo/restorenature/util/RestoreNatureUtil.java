@@ -315,4 +315,19 @@ public class RestoreNatureUtil {
 	    return x;
 
 	}
+	public static boolean hasIdenticalBlockInBackupWorld(Block block){
+		World backupWorld = Bukkit.getWorld(block.getWorld().getName()+"_rs");
+		if(backupWorld==null) return false;
+		
+		int block_x = block.getX();
+		int block_y = block.getY();
+		int block_z = block.getZ();
+		
+		if(backupWorld.getBlockAt(block_x, block_y, block_z).getType().equals(block.getType())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }

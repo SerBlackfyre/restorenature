@@ -62,6 +62,9 @@ public class RestoreNaturePlugin extends JavaPlugin {
     public static String CLAIMED = "This chunk contains claimed lands!";
     public static String OUT_OF_BOUND = "This chunk is not in maintained radius : ";
 
+    public static String SPAWNER_REMOVABLE = "This is a man-placed spawner. It would drop if you break it.";
+    public static String SPAWNER_UNREMOVABLE = "This is not a man-placed spawner. It won't drop if you break it.";
+
     public static String REGARDED_AS_AIR = "AIR,TORCH,WATER,STATIONARY_WATER,LAVA,STATIONARY_LAVA";
     public static ArrayList<Material> RegardedAsAirList = new ArrayList<Material>();
     
@@ -131,7 +134,10 @@ public class RestoreNaturePlugin extends JavaPlugin {
     	config.addDefault("WILL_BE_RESTORED_SOON",WILL_BE_RESTORED_SOON);
     	config.addDefault("OUT_OF_BOUND",OUT_OF_BOUND);
     	config.addDefault("CLAIMED",CLAIMED);
-    	
+
+    	config.addDefault("SPAWNER_REMOVABLE",SPAWNER_REMOVABLE);
+    	config.addDefault("SPAWNER_UNREMOVABLE",SPAWNER_UNREMOVABLE);
+
     	
     	config.addDefault("MAX_SECONDS_UNTOUCHED",MAX_SECONDS_UNTOUCHED);
     	config.addDefault("MAX_SECONDS_ENTITYRECOVER",MAX_SECONDS_ENTITYRECOVER);
@@ -158,7 +164,10 @@ public class RestoreNaturePlugin extends JavaPlugin {
     	WILL_BE_RESTORED_SOON = config.getString("WILL_BE_RESTORED_SOON");
     	OUT_OF_BOUND = config.getString("OUT_OF_BOUND");
     	CLAIMED = config.getString("CLAIMED");
-    	
+
+    	SPAWNER_REMOVABLE = config.getString("SPAWNER_REMOVABLE");
+    	SPAWNER_UNREMOVABLE = config.getString("SPAWNER_UNREMOVABLE");
+
 
 		Verbosity = config.getInt("Verbosity");
     	MAX_SECONDS_UNTOUCHED 			= config.getInt("MAX_SECONDS_UNTOUCHED");
