@@ -110,7 +110,10 @@ public class RestoreNatureBlockListener implements Listener {
             	if(block.getType()!=Material.MOB_SPAWNER) return;
             	
             	SpanwerNotification.put(player, block);
-        		if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
+            	if(!RestoreNatureUtil.hasRestoreWorld(block)){
+            		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+            	}
+            	else if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
             		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
             	}
             	else{
@@ -127,7 +130,10 @@ public class RestoreNatureBlockListener implements Listener {
         if(block.getType()!=Material.MOB_SPAWNER) return;
         
     	event.setExpToDrop(0);
-    	if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
+    	if(!RestoreNatureUtil.hasRestoreWorld(block)){
+    		//player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+    	}
+    	else if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
     		//player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
     	}
     	else{
@@ -155,7 +161,10 @@ public class RestoreNatureBlockListener implements Listener {
         
         Player player = event.getPlayer();
         if(player!=null){
-        	if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
+        	if(!RestoreNatureUtil.hasRestoreWorld(block)){
+        		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+        	}
+        	else if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
         		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
         	}
         	else{

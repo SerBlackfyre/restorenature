@@ -330,4 +330,9 @@ public class RestoreNatureUtil {
 			return false;
 		}
 	}
+	public static boolean hasRestoreWorld(Block block){
+		World backupWorld = Bukkit.getWorld(block.getWorld().getName()+"_rs");
+		if(backupWorld==null) return false;
+		else return true;
+	}
 }
