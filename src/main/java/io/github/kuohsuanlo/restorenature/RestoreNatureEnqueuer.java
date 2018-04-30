@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
@@ -252,11 +253,12 @@ class RestoreNatureEnqueuer implements Runnable {
                     	}
                     	else{
                     		boolean isOthersLand = false;
+                    		Chunk checkChunk = location.getChunk();
                     		for(int x=-8;x<8;x++){
                     			for(int z=-8;z<8;z++){
-                    				Claim claim = gp.dataStore.getClaimAt(
-                    						location.clone().add(x, 0, z), true, null
-											);
+                    				Location chunkInsideLocation = checkChunk.getBlock(x, 0, z).getLocation();
+                    				
+                    				Claim claim = gp.dataStore.getClaimAt(chunkInsideLocation, true, null);
                     				
                     				//no one's land
                     				if(claim==null){
