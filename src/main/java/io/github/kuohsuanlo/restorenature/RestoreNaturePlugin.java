@@ -62,6 +62,8 @@ public class RestoreNaturePlugin extends JavaPlugin {
     public static String CLAIMED = "This chunk contains claimed lands!";
     public static String OUT_OF_BOUND = "This chunk is not in maintained radius : ";
 
+    public static int MINIMAL_DISTANCE_TO_CLAIM = 16;
+    
     public static String SPAWNER_REMOVABLE = "This is a man-placed spawner. It would drop if you break it.";
     public static String SPAWNER_UNREMOVABLE = "This is not a man-placed spawner. It won't drop if you break it.";
 
@@ -135,6 +137,8 @@ public class RestoreNaturePlugin extends JavaPlugin {
     	config.addDefault("OUT_OF_BOUND",OUT_OF_BOUND);
     	config.addDefault("CLAIMED",CLAIMED);
 
+    	config.addDefault("MINIMAL_DISTANCE_TO_CLAIM",MINIMAL_DISTANCE_TO_CLAIM);
+    	
     	config.addDefault("SPAWNER_REMOVABLE",SPAWNER_REMOVABLE);
     	config.addDefault("SPAWNER_UNREMOVABLE",SPAWNER_UNREMOVABLE);
 
@@ -177,6 +181,8 @@ public class RestoreNaturePlugin extends JavaPlugin {
     	USING_FEATURE_GRIEFPREVENTION 	= config.getBoolean("USING_FEATURE_GRIEFPREVENTION");
     	ONLY_RESTORE_AIR 				= config.getBoolean("ONLY_RESTORE_AIR");
 
+    	MINIMAL_DISTANCE_TO_CLAIM		= config.getInt("MINIMAL_DISTANCE_TO_CLAIM");
+    	
     	ENTITY_CAL_LIMIT 	= config.getInt("ENTITY_CAL_LIMIT");
     	ENTITY_CAL_RADIUS 	= config.getInt("ENTITY_CAL_RADIUS");
 
