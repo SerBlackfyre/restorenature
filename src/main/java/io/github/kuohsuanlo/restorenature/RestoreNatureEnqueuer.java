@@ -36,7 +36,7 @@ class RestoreNatureEnqueuer implements Runnable {
 	public static final int chunk_center_y = 64;
 	public static final int chunk_center_z = 8;
 
-	public int checkRadius = Math.max(8+RestoreNaturePlugin.MINIMAL_DISTANCE_TO_CLAIM,8);
+	public int extraDistanceDefault = Math.max(RestoreNaturePlugin.MINIMAL_DISTANCE_TO_CLAIM,0);
 	
 	public int processCount = 1;
 	public int currentCount = 0;
@@ -105,7 +105,9 @@ class RestoreNatureEnqueuer implements Runnable {
     							rsplugin.getServer().getConsoleSender().sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+"Maximum number of tasks in TaskQueue reached. Please increase CHECK_PERIOD_IN_SECONDS" );
     					}
     				}
-    				else if(chunksInfo.chunk_untouchedtime[x][z]>=RestoreNaturePlugin.MAX_SECONDS_ENTITYRECOVER){
+    			}
+    	    	if(!checkLocationClaimed(ChunkMid,0)){ // Land not claimed
+    				if(chunksInfo.chunk_untouchedtime[x][z]>=RestoreNaturePlugin.MAX_SECONDS_ENTITYRECOVER){
     					currentEntityRequested++;
     					if(rsplugin.ChunkDequeuer.addEntityRestoreTask(ChunkMid)){
     						if(RestoreNaturePlugin.Verbosity>=1)
@@ -224,6 +226,9 @@ class RestoreNatureEnqueuer implements Runnable {
 		}
     }
 	public boolean checkLocationClaimed(Location location){
+		return checkLocationClaimed(location, extraDistanceDefault);
+	}
+	public boolean checkLocationClaimed(Location location, int extraDistance){
     	
     	
     	if(RestoreNaturePlugin.USING_FEATURE_FACTION){
@@ -255,8 +260,9 @@ class RestoreNatureEnqueuer implements Runnable {
                     	}
                     	else{
                     		boolean isOthersLand = false;
-                    		for(int x=-checkRadius;x<checkRadius;x++){
-                    			for(int z=-checkRadius;z<checkRadius;z++){
+                    		int currentDistance = 8+extraDistance;
+                    		for(int x=-currentDistance;x<currentDistance;x++){
+                    			for(int z=-currentDistance;z<currentDistance;z++){
                     				Claim claim = gp.dataStore.getClaimAt(location.clone().add(x, 0, z), true, null);
                     				
                     				//no one's land
