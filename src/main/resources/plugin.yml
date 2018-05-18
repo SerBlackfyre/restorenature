@@ -22,3 +22,6 @@ permissions:
     restorenature.check:
         description: check the uncheck time.
         default: true
+    restorenature.ignore.notice.spawner:
+        description: player with this permission node wont get the notification.
+        default: op

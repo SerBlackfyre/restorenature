@@ -106,18 +106,26 @@ public class RestoreNatureBlockListener implements Listener {
         	
         	if(SpanwerNotification.get(player)==null  ||  !SpanwerNotification.get(player).equals(block)){
         		
-
+        		
             	if(block.getType()!=Material.MOB_SPAWNER) return;
             	
             	SpanwerNotification.put(player, block);
             	if(!RestoreNatureUtil.hasRestoreWorld(block)){
-            		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+            		if(!player.hasPermission("restorenature.ignore.notice.spawner")){
+            			player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+            		}
+            		
             	}
             	else if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
-            		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+            		if(!player.hasPermission("restorenature.ignore.notice.spawner")){
+            			player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+            		}
             	}
             	else{
-            		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_REMOVABLE);
+            		if(!player.hasPermission("restorenature.ignore.notice.spawner")){
+            			player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_REMOVABLE);
+            		}
+            		
             	}
         	}
         	
@@ -162,13 +170,20 @@ public class RestoreNatureBlockListener implements Listener {
         Player player = event.getPlayer();
         if(player!=null){
         	if(!RestoreNatureUtil.hasRestoreWorld(block)){
-        		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+        		if(!player.hasPermission("restorenature.ignore.notice.spawner")){
+        			player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+        		}
+        		
         	}
         	else if(RestoreNatureUtil.hasIdenticalBlockInBackupWorld(block)){
-        		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+        		if(!player.hasPermission("restorenature.ignore.notice.spawner")){
+        			player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
+        		}
         	}
         	else{
-        		player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_REMOVABLE);
+        		if(!player.hasPermission("restorenature.ignore.notice.spawner")){
+        			player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_REMOVABLE);
+        		}
         	}
         }
     }
