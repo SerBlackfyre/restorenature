@@ -187,7 +187,7 @@ public class RestoreNatureUtil {
 		
 		for(MaintainedWorld mworld : RestoreNaturePlugin.config_maintain_worlds){
 			if(mworld.world_name.equals(world.getName())){
-				System.out.println(mworld.world_name+"/"+mworld.only_restore_air);
+				//System.out.println(mworld.world_name+"/"+mworld.only_restore_air);
 				return mworld.only_restore_air;
 			}
 		}
