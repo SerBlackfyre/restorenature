@@ -16,6 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.kuohsuanlo.restorenature.MaintainedWorld;
 import io.github.kuohsuanlo.restorenature.MapChunkInfo;
 import io.github.kuohsuanlo.restorenature.RestoreNaturePlugin;
 
@@ -182,11 +183,22 @@ public class RestoreNatureUtil {
         	chunk_info.chunk_untouchedtime[array_x][array_z]=0;
     	}
     }
+	public static boolean isOnlyRestoreAir(World world){
+		
+		for(MaintainedWorld mworld : RestoreNaturePlugin.config_maintain_worlds){
+			if(mworld.world_name.equals(world.getName())){
+				System.out.println(mworld.world_name+"/"+mworld.only_restore_air);
+				return mworld.only_restore_air;
+			}
+		}
+		return RestoreNaturePlugin.ONLY_RESTORE_AIR;
+	}
 	public static void restoreChunk(Chunk player_chunk, Chunk restoring_chunk, MapChunkInfo chunk_info,int array_x,int array_z){
+		boolean only_restore_air = isOnlyRestoreAir(player_chunk.getWorld());
     	for(int x=0;x<16;x++){
             for(int y=0;y<256;y++){
                 for(int z=0;z<16;z++){
-                	if(RestoreNaturePlugin.ONLY_RESTORE_AIR){
+                	if(only_restore_air){
                     	if(RestoreNaturePlugin.RegardedAsAirList.contains( player_chunk.getBlock(x, y, z).getType())){
                     		restoreChunkBlock(restoring_chunk,player_chunk,x,y,z);
                         	restoreChunkDetails(restoring_chunk,player_chunk,x,y,z);

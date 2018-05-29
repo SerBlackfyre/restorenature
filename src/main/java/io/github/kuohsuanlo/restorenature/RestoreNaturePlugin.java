@@ -27,17 +27,6 @@ import org.json.simple.parser.ParseException;
 import io.github.kuohsuanlo.restorenature.util.Lag;
 
 
-class Maintained_World{
-	public String world_name = "";
-	public ArrayList<String> nature_factions;
-	public int chunk_radius;
-	public Maintained_World(String name,ArrayList<String> factions,int radius){
-		world_name =name;
-		nature_factions = factions;
-		chunk_radius = radius;
-	}
-}
-
 public class RestoreNaturePlugin extends JavaPlugin {
 
 	
@@ -53,7 +42,7 @@ public class RestoreNaturePlugin extends JavaPlugin {
     private static FileConfiguration config;
     
     public static final String VERSION = "1.0.1a";
-    public static final String DEFAULT_WORLDS_INFO = "{\"maintained_worlds\":[{\"world_name\": \"my_cool_world\",\"check_radius\": \""+200+"\",\"nature_factions\": [{\"faction_name\": \"Wilderness\"},{\"faction_name\": \"some_resource_area_faction\"}]},{\"world_name\": \"my_wrecked_nether\",\"check_radius\": \""+200+"\",\"nature_factions\": []}]}";
+    public static final String DEFAULT_WORLDS_INFO = "{\"maintained_worlds\":[{\"world_name\": \"my_cool_world\",\"check_radius\": \""+200+"\",\"nature_factions\": [{\"faction_name\": \"Wilderness\"},{\"faction_name\": \"some_resource_area_faction\"}]},{\"world_name\": \"my_wrecked_nether\",\"check_radius\": \""+200+"\",\"only_restore_air\": \""+true+"\",\"nature_factions\": []}]}";
     
     public static String PLUGIN_PREFIX = "[RestoreNature] : ";
     public static String UNTOUCHED_TIME_NOT_ENOUGH = "Untouched time not enough. Time in seconds : ";
@@ -73,8 +62,8 @@ public class RestoreNaturePlugin extends JavaPlugin {
 	public static int ENTITY_CAL_LIMIT = 4;
 	public static int ENTITY_CAL_RADIUS = 1;
     
-    public ArrayList<Maintained_World> config_maintain_worlds = new ArrayList<Maintained_World>();
-	public ArrayList<MapChunkInfo> maintain_world_chunk_info = new ArrayList<MapChunkInfo>();
+    public static ArrayList<MaintainedWorld> config_maintain_worlds = new ArrayList<MaintainedWorld>();
+	public static ArrayList<MapChunkInfo> maintain_world_chunk_info = new ArrayList<MapChunkInfo>();
 	public RestoreNatureEnqueuer ChunkEnqueuer; 
     public RestoreNatureDequeuer ChunkDequeuer;
     public Lag LagTicker;
@@ -216,7 +205,17 @@ public class RestoreNaturePlugin extends JavaPlugin {
     		}
     		String world_name = world.get("world_name")+"";
     		String radius = world.get("check_radius")+"";
-    		config_maintain_worlds.add( new Maintained_World(world_name,n_factions,Integer.valueOf(radius)));     	    	
+    		boolean only_restore_air = ONLY_RESTORE_AIR;
+    		String only_restore_air_str = (String) world.get("only_restore_air");
+    		
+    		if(only_restore_air_str!=null){
+    			only_restore_air = Boolean.valueOf((String) world.get("only_restore_air"));
+    		}
+    		
+    		config_maintain_worlds.add( new MaintainedWorld(world_name,n_factions,Integer.valueOf(radius),only_restore_air));
+    		this.getServer().getConsoleSender().sendMessage(
+    				PLUGIN_PREFIX+"world setting from json "+world_name+"/"+n_factions+"/"+Integer.valueOf(radius)+"/"+only_restore_air);	
+  	   		    	    	
     	}
 
     	

@@ -32,7 +32,7 @@ public class RestoreNatureDequeuer implements Runnable {
     public RestoreNatureDequeuer(RestoreNaturePlugin plugin) {
     	rnplugin = plugin;
     	MAX_TASK_IN_QUEUE=0;
-    	for(int i=0;i<rnplugin.config_maintain_worlds.size();i++){
+    	for(int i=0;i<RestoreNaturePlugin.config_maintain_worlds.size();i++){
     		int cr = rnplugin.config_maintain_worlds.get(i).chunk_radius;
     		MAX_TASK_IN_QUEUE+= Math.round(cr*cr*Math.PI);
     	}
