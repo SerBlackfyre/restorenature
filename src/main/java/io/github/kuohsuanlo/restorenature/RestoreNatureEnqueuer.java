@@ -139,6 +139,7 @@ class RestoreNatureEnqueuer implements Runnable {
         		}
         		rsplugin.getServer().getConsoleSender().sendMessage(
         				ChatColor.LIGHT_PURPLE+RestoreNaturePlugin.PLUGIN_PREFIX+
+        				chunksInfo.world_name+" | "+
         				"progress: "+chunksInfo.now_min_x+"/"+chunksInfo.max_x+" | "+
         				"elapsed: "+elapsed+" sec(s)"+" | "+
         				"Full Enq/Deq: "+
