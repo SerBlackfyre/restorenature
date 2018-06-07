@@ -28,6 +28,26 @@ public class RestoreNatureUtil {
 		restoredBlock.setData(restoringBlock.getData());
     	
 	}
+	public static void attemptPlacingSeaWeed(Chunk chunk){
+		int seaLevel = chunk.getWorld().getSeaLevel();
+		for(int x=0;x<16;x++){
+			for(int z=0;z<16;z++){
+				boolean[] shouldPlace = new boolean[256];
+				for(int y=seaLevel;y>0;y--){
+					if(chunk.getBlock(x, y, z).getType().equals(Material.STATIONARY_WATER)){
+						shouldPlace[y]= true;
+					}
+				}
+				for(int y=0;y<=seaLevel;y++){
+					if(shouldPlace[y]){
+						chunk.getBlock(x, y, z).setType(Material.LEAVES);
+					}
+				}
+			}
+		}
+		return;
+		
+	}
 	public static boolean isInRadius(int x,int z, int radius){
 		return x*x+z*z<=radius*radius;
 	}
@@ -276,30 +296,7 @@ public class RestoreNatureUtil {
 		e.equals(EntityType.WITCH);
 	}
 	
-    public static int removeBannedBlockedInChunk(Chunk restored, Chunk restoring){
-    	int removedSnow =0;
-    	for(int x=0;x<16;x++){
-            for(int z=0;z<16;z++){
-            	for(int y=128;y>55;y--){
-            		if(	restored.getBlock(x, y, z).getType()==Material.AIR){
-            			continue;
-            		}
-            		else if(restored.getBlock(x, y, z).getType()==Material.SNOW  &&  
-            				restoring.getBlock(x, y, z).getType()!=Material.SNOW){
-        				
-                		restored.getBlock(x, y, z).setType(Material.AIR);
-                		removedSnow++;
-                		break;
-                	}
-            		else{
-            			break;
-            		}
-                }
-            }
-    	}
-    	return removedSnow;
-                	
-    }
+
 
     public static int convertArrayIdxToChunkIdx(int x){
 	    int chunk_x =0;

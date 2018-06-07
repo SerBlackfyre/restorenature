@@ -120,8 +120,7 @@ public class RestoreNatureDequeuer implements Runnable {
 
         	lastEntityChunkRestored++;
         	lastEntityRespawn += RestoreNatureUtil.restoreChunkEntity(restored,restoring);
-        	//lastBannedBlockRemoved+=RestoreNatureUtil.removeBannedBlockedInChunk(restored,restoring);
-        	
+
         	if(RestoreNaturePlugin.Verbosity>=1)
         		rnplugin.getServer().getConsoleSender().sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+"EntityRestoreQueue done task : "+restored.getWorld().getName()+" "+restored.getX()+" "+restored.getZ());
     	}
