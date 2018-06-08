@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -25,6 +26,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import io.github.kuohsuanlo.restorenature.util.Lag;
+import io.github.kuohsuanlo.restorenature.util.TerrainHeightGenerator;
 
 
 public class RestoreNaturePlugin extends JavaPlugin {
@@ -72,8 +74,12 @@ public class RestoreNaturePlugin extends JavaPlugin {
     private static int TpsCounterId=-1;
 
     private final RestoreNatureBlockListener blockListener = new RestoreNatureBlockListener(this); 
-    
     private static RestoreNatureCommand CommandExecutor;
+
+    public static Random rng = new Random(1205);
+    public static TerrainHeightGenerator h = new TerrainHeightGenerator(rng,40,5,20);
+    
+    
     public static HashMap<String, String> messageData = new HashMap<String, String>();
     @Override
     public void onDisable() {

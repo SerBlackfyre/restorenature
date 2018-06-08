@@ -183,6 +183,30 @@ public class RestoreNatureCommand implements CommandExecutor {
 								return false;
 		    			 }
 		    		}
+		    		else if (args[0].equals("seaweed")){
+		    			 if (sender.hasPermission("restorenature.manualrestore")){
+		    				 
+		    				RestoreNatureUtil.attemptPlacingSeaWeed(player.getLocation().getChunk());
+		    				
+		    				return true;
+		    			 }
+		    			 else{
+		    				 sender.sendMessage(ChatColor.RED+"You don't have the permission.");
+		    				 return false;
+		    			 }
+		    		}
+		    		else if (args[0].equals("coral")){
+		    			 if (sender.hasPermission("restorenature.manualrestore")){
+		    				 
+		    				RestoreNatureUtil.attemptPlacingCoral(player.getLocation().getChunk());
+		    				
+		    				return true;
+		    			 }
+		    			 else{
+		    				 sender.sendMessage(ChatColor.RED+"You don't have the permission.");
+		    				 return false;
+		    			 }
+		    		}
 		    		
 		        }
 		        

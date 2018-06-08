@@ -28,21 +28,123 @@ public class RestoreNatureUtil {
 		restoredBlock.setData(restoringBlock.getData());
     	
 	}
+	public static Material SEAWEED = Material.COBBLE_WALL;
+	public static boolean isWaterBlock(Material m){
+		if(m.equals(Material.STATIONARY_WATER)) return true;
+		if(m.equals(Material.WATER)) return true;
+		if(m.equals(SEAWEED)) return true;
+		return false;
+	}
 	public static void attemptPlacingSeaWeed(Chunk chunk){
 		int seaLevel = chunk.getWorld().getSeaLevel();
+		int seaweedMinLength = 1;
+		int pureWaterLayerDepth = 1;
 		for(int x=0;x<16;x++){
 			for(int z=0;z<16;z++){
+				int waterLength = 0;
 				boolean[] shouldPlace = new boolean[256];
+				
+				int blockx = chunk.getBlock(x, 0, z).getLocation().getBlockX();
+				int blockz = chunk.getBlock(x, 0, z).getLocation().getBlockZ();
+				int seaweedMaxLength = RestoreNaturePlugin.h.generateHeight(blockx, blockz);
+				boolean contactWater = false;
 				for(int y=seaLevel;y>0;y--){
-					if(chunk.getBlock(x, y, z).getType().equals(Material.STATIONARY_WATER)){
+					if(isWaterBlock(chunk.getBlock(x, y, z).getType())){
+						contactWater = true;
 						shouldPlace[y]= true;
+						waterLength++;
+					}
+					else if(contactWater){
+						break;
 					}
 				}
-				for(int y=0;y<=seaLevel;y++){
-					if(shouldPlace[y]){
-						chunk.getBlock(x, y, z).setType(Material.LEAVES);
+				
+				if(waterLength>seaweedMinLength){
+					int finalLength = (int) Math.round(Math.random()*(waterLength-seaweedMinLength)+seaweedMinLength);
+					finalLength = (int) (finalLength*(seaweedMaxLength/20.0));
+					for(int y=0;y<seaLevel-pureWaterLayerDepth;y++){
+						if(finalLength>0){
+							if(shouldPlace[y]){
+								finalLength--;
+								chunk.getBlock(x, y, z).setType(SEAWEED);
+							}
+						}
+						else{
+							break;
+						}
 					}
 				}
+				else{
+					
+				}
+				
+			}
+		}
+		return;
+	}
+	public static void attemptPlacingCoral(Chunk chunk){
+		int seaLevel = chunk.getWorld().getSeaLevel();
+		int coralMinLength = 0;
+		int coralMaxLength = 5;
+		int pureWaterLayerDepth = 15;
+		for(int x=0;x<16;x++){
+			for(int z=0;z<16;z++){
+				int waterLength = 0;
+				boolean[] shouldPlace = new boolean[256];
+				
+				boolean contactWater = false;
+				for(int y=seaLevel;y>0;y--){
+					if(isWaterBlock(chunk.getBlock(x, y, z).getType())){
+						contactWater = true;
+						shouldPlace[y]= true;
+						waterLength++;
+					}
+					else if(contactWater){
+						break;
+					}
+				}
+				int blockx = chunk.getBlock(x, 0, z).getLocation().getBlockX();
+				int blockz = chunk.getBlock(x, 0, z).getLocation().getBlockZ();
+				int coralRatioLength = RestoreNaturePlugin.h.generateHeight(blockx, blockz);
+				int coralLength = (int) Math.round(Math.random()*(coralMaxLength-coralMinLength)+coralMinLength);
+				coralLength = (int) (coralLength*(coralRatioLength/40.0));
+				
+				if(waterLength>coralLength){
+					for(int y=0;y<seaLevel-pureWaterLayerDepth;y++){
+						
+						if(coralLength>0){
+							if(shouldPlace[y]){
+								
+								coralLength--;
+								
+								int color = (int) Math.round(Math.random()*4);
+								switch(color){
+								case 0:
+									chunk.getBlock(x, y, z).setType(Material.YELLOW_GLAZED_TERRACOTTA);
+									break;
+								case 1:
+									chunk.getBlock(x, y, z).setType(Material.PURPLE_GLAZED_TERRACOTTA);
+									break;
+								case 2:
+									chunk.getBlock(x, y, z).setType(Material.GREEN_GLAZED_TERRACOTTA);
+									break;
+								case 3:
+									chunk.getBlock(x, y, z).setType(Material.RED_GLAZED_TERRACOTTA);
+									break;
+								case 4:
+									chunk.getBlock(x, y, z).setType(Material.WHITE_GLAZED_TERRACOTTA);
+									break;
+								}
+							}
+							
+						}
+						else{
+							break;
+						}
+						
+					}
+				}
+				
 			}
 		}
 		return;
