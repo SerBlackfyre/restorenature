@@ -9,6 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import io.github.kuohsuanlo.restorenature.util.MapGenerationUtil;
 import io.github.kuohsuanlo.restorenature.util.RestoreNatureUtil;
 
  
@@ -186,7 +188,7 @@ public class RestoreNatureCommand implements CommandExecutor {
 		    		else if (args[0].equals("seaweed")){
 		    			 if (sender.hasPermission("restorenature.manualrestore")){
 		    				 
-		    				RestoreNatureUtil.attemptPlacingSeaWeed(player.getLocation().getChunk());
+		    				MapGenerationUtil.attemptPlacingSeaWeed(player.getLocation().getChunk());
 		    				
 		    				return true;
 		    			 }
@@ -198,7 +200,7 @@ public class RestoreNatureCommand implements CommandExecutor {
 		    		else if (args[0].equals("coral")){
 		    			 if (sender.hasPermission("restorenature.manualrestore")){
 		    				 
-		    				RestoreNatureUtil.attemptPlacingCoral(player.getLocation().getChunk());
+		    				 MapGenerationUtil.attemptPlacingCoral(player.getLocation().getChunk());
 		    				
 		    				return true;
 		    			 }

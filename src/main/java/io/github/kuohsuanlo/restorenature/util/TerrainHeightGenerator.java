@@ -7,7 +7,7 @@ public class TerrainHeightGenerator {
     private final float AMPLITUDE;
     private final int OCTAVES ;
     private final float GROUND;
-    private static final float ROUGHNESS = 0.2f;
+    private static final float ROUGHNESS = 0.9f;
  
 
     private Random random;
@@ -28,6 +28,11 @@ public class TerrainHeightGenerator {
         this.seed = random.nextInt(900000000);
 
        
+    }
+    public double generateDoubleRandom(int x, int z){
+        random.setSeed(91205*x + 90722*z  + seed);
+        //random.setSeed(x * 91205 + z * 90722 + seed);
+        return random.nextDouble();
     }
     public int generateHeight(int x, int z) {
     	
@@ -101,7 +106,7 @@ public class TerrainHeightGenerator {
     }
 	public static void main(String[] args) {
 		Random rng = new Random(1205);
-		TerrainHeightGenerator h = new TerrainHeightGenerator(rng,50,5,20);
+		TerrainHeightGenerator h = new TerrainHeightGenerator(rng,5,2,0);
 
 		for(int i=-25;i<25;i++){
 			for(int j=-25;j<25;j++){

@@ -77,7 +77,7 @@ public class RestoreNaturePlugin extends JavaPlugin {
     private static RestoreNatureCommand CommandExecutor;
 
     public static Random rng = new Random(1205);
-    public static TerrainHeightGenerator h = new TerrainHeightGenerator(rng,40,5,20);
+    public static TerrainHeightGenerator h = new TerrainHeightGenerator(rng,5,2,0);
     
     
     public static HashMap<String, String> messageData = new HashMap<String, String>();
