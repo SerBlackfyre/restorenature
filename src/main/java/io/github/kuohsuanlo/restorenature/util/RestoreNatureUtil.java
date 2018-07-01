@@ -56,21 +56,27 @@ public class RestoreNatureUtil {
 			Chest restoring_chest = (Chest) restoring_chunk.getBlock(x, y, z).getState();
 			Chest restored_chest = (Chest) player_chunk.getBlock(x, y, z).getState();
 			
+		    ItemStack[] items ;
+		    items = restoring_chest.getBlockInventory().getContents();
+		    
 			int itemNum = restoring_chest.getBlockInventory().getSize();
 			Material mtmp;
 			int ntmp;
+			
 			for(int i=0;i<itemNum;i++){
 				if(restoring_chest.getBlockInventory().getItem(i) ==null){
 					//RestoreNaturePlugin.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW+RestoreNaturePlugin.PLUGIN_PREFIX+"null "+i);
 				}
 				else{
-					mtmp = restoring_chest.getBlockInventory().getItem(i).getType();
-					ntmp = restoring_chest.getBlockInventory().getItem(i).getAmount();
-					restored_chest.getInventory().addItem(new ItemStack(mtmp,ntmp));
+					mtmp = items[i].getType();
+					ntmp = items[i].getAmount();
+					ItemStack item = new ItemStack(mtmp,ntmp);
+					restored_chest.getBlockInventory().addItem(item);
 				}
 				
+				restored_chest.update();
+				
 			}
-			restored_chest.update();
 		}
 	}
 	private static int[] calculateChunkEntityTypesNumber(Chunk chunk, int dm){

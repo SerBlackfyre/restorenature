@@ -137,7 +137,6 @@ public class RestoreNatureBlockListener implements Listener {
         Block block = event.getBlock();
         if(block.getType()!=Material.MOB_SPAWNER) return;
         
-    	event.setExpToDrop(0);
     	if(!RestoreNatureUtil.hasRestoreWorld(block)){
     		//player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
     	}
@@ -146,7 +145,9 @@ public class RestoreNatureBlockListener implements Listener {
     	}
     	else{
     		//player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_REMOVABLE);
-    		
+
+
+        	event.setExpToDrop(0);
     		CreatureSpawner cs = (CreatureSpawner) block.getState();
     		EntityType entityType= cs.getSpawnedType();
     		
