@@ -107,7 +107,7 @@ public class RestoreNatureBlockListener implements Listener {
         	if(SpanwerNotification.get(player)==null  ||  !SpanwerNotification.get(player).equals(block)){
         		
         		
-            	if(block.getType()!=Material.MOB_SPAWNER) return;
+            	if(block.getType()!=Material.SPAWNER) return;
             	
             	SpanwerNotification.put(player, block);
             	if(!RestoreNatureUtil.hasRestoreWorld(block)){
@@ -135,7 +135,7 @@ public class RestoreNatureBlockListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onSpanwerBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
-        if(block.getType()!=Material.MOB_SPAWNER) return;
+        if(block.getType()!=Material.SPAWNER) return;
         
     	if(!RestoreNatureUtil.hasRestoreWorld(block)){
     		//player.sendMessage(RestoreNaturePlugin.PLUGIN_PREFIX+RestoreNaturePlugin.SPAWNER_UNREMOVABLE);
@@ -152,12 +152,12 @@ public class RestoreNatureBlockListener implements Listener {
     		EntityType entityType= cs.getSpawnedType();
     		
     		if(!entityType.equals(EntityType.ZOMBIE)){
-    			ItemStack egg = new ItemStack(Material.MONSTER_EGG,1);
+    			ItemStack egg = new ItemStack(Material.ZOMBIE_SPAWN_EGG,1);
         		egg.setDurability(entityType.getTypeId());
         		event.getBlock().getWorld().dropItem(event.getBlock().getLocation().add(0,0.5f,0),egg);
     		}
     		
-    		ItemStack spawner =  new ItemStack(Material.MOB_SPAWNER,1);
+    		ItemStack spawner =  new ItemStack(Material.SPAWNER,1);
     		event.getBlock().getWorld().dropItem(event.getBlock().getLocation().add(0,0.5f,0),spawner);
     		
     	}
@@ -166,7 +166,7 @@ public class RestoreNatureBlockListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onSpanwerPlaceEvent(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        if(block.getType()!=Material.MOB_SPAWNER) return;
+        if(block.getType()!=Material.SPAWNER) return;
         
         Player player = event.getPlayer();
         if(player!=null){

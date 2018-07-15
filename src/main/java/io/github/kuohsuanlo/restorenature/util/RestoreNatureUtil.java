@@ -39,7 +39,7 @@ public class RestoreNatureUtil {
 		return true;
 	}
 	private static void restoreChunkDetails(Chunk restoring_chunk, Chunk player_chunk, int x, int y, int z ){
-		if(restoring_chunk.getBlock(x, y, z).getType().equals(Material.MOB_SPAWNER)){
+		if(restoring_chunk.getBlock(x, y, z).getType().equals(Material.SPAWNER)){
     		CreatureSpawner restoring_spawner = (CreatureSpawner) restoring_chunk.getBlock(x, y, z).getState();
 			CreatureSpawner restored_spawner = (CreatureSpawner) player_chunk.getBlock(x, y, z).getState();  
 			

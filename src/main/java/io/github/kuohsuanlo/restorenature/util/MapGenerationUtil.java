@@ -2,25 +2,24 @@ package io.github.kuohsuanlo.restorenature.util;
 
 import io.github.kuohsuanlo.restorenature.RestoreNaturePlugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.SeaPickle;
+import org.bukkit.material.MaterialData;
 
 public class MapGenerationUtil {
-	public static Material SEAWEED_DEFAULT = Material.COBBLE_WALL;
-	public static Material SEAWEED_1 = Material.LEAVES;
-	public static Material SEAWEED_2 = Material.ANVIL;
-	public static Material SEAWEED_3 = Material.ACACIA_FENCE;
-	public static Material SEAWEED_4 = Material.BIRCH_FENCE;
-	public static Material SEAWEED_5 = Material.JUNGLE_FENCE;
+	public static Material SEAWEED_DEFAULT = Material.KELP_PLANT;
+	//public static BlockData SEAGRASS_UPPER = Bukkit.getServer().createBlockData("half:\"upper\"");
+	//public static BlockData SEAGRASS_LOWER = Bukkit.getServer().createBlockData("half:\"lower\"");
 	public static boolean isWaterBlock(Material m){
-		if(m.equals(Material.STATIONARY_WATER)) return true;
 		if(m.equals(Material.WATER)) return true;
 		if(m.equals(SEAWEED_DEFAULT)) return true;
-		if(m.equals(SEAWEED_1)) return true;
-		if(m.equals(SEAWEED_2)) return true;
-		if(m.equals(SEAWEED_3)) return true;
-		if(m.equals(SEAWEED_4)) return true;
-		if(m.equals(SEAWEED_5)) return true;
+		if(m.equals(Material.KELP)) return true;
+		if(m.equals(Material.TALL_SEAGRASS)) return true;
+		if(m.equals(Material.SEAGRASS)) return true;
+		if(m.equals(Material.SEA_PICKLE)) return true;
 		return false;
 	}
 	public static void attemptPlacingSeaWeed(Chunk chunk){
@@ -28,6 +27,9 @@ public class MapGenerationUtil {
 		int seaweedMinLength = 1;
 		int seaweedMaxLength = 10;
 		int pureWaterLayerDepth = 1;
+		
+		
+		
 		for(int x=0;x<16;x++){
 			for(int z=0;z<16;z++){
 				int waterLength = 0;
@@ -35,25 +37,21 @@ public class MapGenerationUtil {
 				
 				int blockx = chunk.getBlock(x, 0, z).getLocation().getBlockX();
 				int blockz = chunk.getBlock(x, 0, z).getLocation().getBlockZ();
-				int seaweedRandomType = RestoreNaturePlugin.h.generateHeight(blockx, blockz);
-				Material currentSeaWeedType = SEAWEED_DEFAULT;
-				if(seaweedRandomType==1){
-					currentSeaWeedType = Material.LEAVES;
+				int currentSeaObjectInt = RestoreNaturePlugin.h.generateHeight(blockx, blockz);
+				Material currentSeaObjectType = SEAWEED_DEFAULT;
+				if(currentSeaObjectInt==1){
+					currentSeaObjectType = Material.KELP_PLANT;
 				}
-				else if(seaweedRandomType==2){
-					currentSeaWeedType = Material.ANVIL;
+				else if(currentSeaObjectInt==2){
+					currentSeaObjectType = Material.SEAGRASS;
 				}
-				else if(seaweedRandomType==3){
-					currentSeaWeedType = Material.ACACIA_FENCE;
+				else if(currentSeaObjectInt==3){
+					currentSeaObjectType = Material.TALL_SEAGRASS;
 				}
-				else if(seaweedRandomType==4){
-					currentSeaWeedType = Material.BIRCH_FENCE;
+				else if(currentSeaObjectInt==4){
+					currentSeaObjectType = Material.SEA_PICKLE;
 				}
-				else if(seaweedRandomType==5){
-					currentSeaWeedType = Material.JUNGLE_FENCE;
-				}
-				
-				if(seaweedRandomType>0){
+				if(currentSeaObjectInt>0){
 					boolean contactWater = false;
 					for(int y=seaLevel;y>0;y--){
 						if(isWaterBlock(chunk.getBlock(x, y, z).getType())){
@@ -67,18 +65,66 @@ public class MapGenerationUtil {
 					}
 					
 					if(waterLength>seaweedMinLength){
-						int finalLength = (int) Math.round( RestoreNaturePlugin.h.generateDoubleRandom(blockx, blockz)*(seaweedMaxLength-seaweedMinLength))+seaweedMinLength;
-						for(int y=0;y<seaLevel-pureWaterLayerDepth;y++){
-							if(finalLength>0){
-								if(shouldPlace[y]){
-									finalLength--;
-									chunk.getBlock(x, y, z).setType(currentSeaWeedType);
+						if(currentSeaObjectType==Material.KELP_PLANT){
+							int finalLength = (int) Math.round( RestoreNaturePlugin.h.generateDoubleRandom(blockx, blockz)*(seaweedMaxLength-seaweedMinLength))+seaweedMinLength;
+							for(int y=0;y<seaLevel-pureWaterLayerDepth;y++){
+								if(finalLength>=1){
+									if(shouldPlace[y]){
+										finalLength--;
+										chunk.getBlock(x, y, z).setType(Material.KELP_PLANT);
+									}
+								}
+								else if (finalLength==0){
+									if(shouldPlace[y]){
+										finalLength--;
+										chunk.getBlock(x, y, z).setType(Material.KELP);
+									}
+								}
+								else{
+									break;
 								}
 							}
-							else{
-								break;
-							}
 						}
+						else if(currentSeaObjectType == Material.TALL_SEAGRASS){
+							for(int y=0;y<seaLevel-pureWaterLayerDepth-1;y++){
+								if(shouldPlace[y]){
+									//todo: need to add half:lower / half:upper in the future.
+									chunk.getBlock(x, y, z).setType(currentSeaObjectType);
+									//chunk.getBlock(x, y, z).setBlockData(SEAGRASS_LOWER);
+									chunk.getBlock(x, y+1, z).setType(currentSeaObjectType);
+									//chunk.getBlock(x, y, z).setBlockData(SEAGRASS_UPPER);
+									break;
+								}
+							}
+							
+						}
+						else if(currentSeaObjectType == Material.SEAGRASS){
+							for(int y=0;y<seaLevel-pureWaterLayerDepth;y++){
+								if(shouldPlace[y]){
+									chunk.getBlock(x, y, z).setType(currentSeaObjectType);
+									break;
+								}
+							}
+							
+						}
+						else if(currentSeaObjectType == Material.SEA_PICKLE){
+							for(int y=0;y<seaLevel-pureWaterLayerDepth;y++){
+								if(shouldPlace[y]){
+									chunk.getBlock(x, y, z).setType(currentSeaObjectType);
+									
+									BlockData blockData = chunk.getBlock(x, y, z).getState().getBlockData();
+									if (blockData instanceof SeaPickle) {
+										//todo: need to update pickles number
+										SeaPickle w = (SeaPickle) blockData;
+									    w.setPickles((int) Math.ceil(Math.random()*4));
+									    chunk.getBlock(x, y, z).getState().setBlockData(w);
+									    break;
+									} 
+								}
+							}
+							
+						}
+						
 					}
 					else{
 						
